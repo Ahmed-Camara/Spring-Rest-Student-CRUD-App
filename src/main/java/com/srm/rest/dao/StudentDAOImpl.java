@@ -52,7 +52,7 @@ public class StudentDAOImpl implements StudentDAO{
 		
 		currentSession.getTransaction().begin();
 		
-		Student student = getSingleStudent(id);
+		Student student = currentSession.get(Student.class, id);
 		
 		currentSession.delete(student);
 		
@@ -64,22 +64,18 @@ public class StudentDAOImpl implements StudentDAO{
 	@Override
 	public Student getStudent(int id) {
 		
-		return getSingleStudent(id);
-	}
-	
-	private Student getSingleStudent(int id) {
-		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
 		currentSession.getTransaction().begin();
 		
 		Student student = currentSession.get(Student.class, id);
 		
-		currentSession.delete(student);
-		
 		currentSession.getTransaction().commit();
+		
+		
 		
 		return student;
 	}
+	
 
 }
