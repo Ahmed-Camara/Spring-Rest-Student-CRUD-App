@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.srm.rest.entity.Student;
+import com.srm.rest.exceptionsHandler.StudentNotFoundException;
 import com.srm.rest.service.StudentService;
 
 @RestController
@@ -28,6 +29,15 @@ public class StudentRestController {
 	@GetMapping("/student/{studentID}")
 	public Student getStudent(@PathVariable int studentID) {
 		
-		return studentService.getStudent(studentID);
+		
+		Student student = studentService.getStudent(studentID);
+		
+		if(student == null) {
+			
+			throw new StudentNotFoundException("Student not found id : "+studentID);
+		}
+		
+		
+		return student;
 	}
 }
