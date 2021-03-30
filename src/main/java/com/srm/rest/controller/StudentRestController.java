@@ -3,6 +3,7 @@ package com.srm.rest.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,5 +64,18 @@ public class StudentRestController {
 		studentService.saveStudent(student);
 		
 		return student;
+	}
+	
+	@DeleteMapping("/student/{studentID}")
+	public String deleteStudent(@PathVariable int studentID) {
+		
+		Student student = studentService.getStudent(studentID);
+		
+		if(student == null) {
+			
+			throw new StudentNotFoundException("Student not found id : "+studentID);
+		}
+		studentService.deleteStudent(studentID);
+		return "Deleted student id : " + studentID;
 	}
 }
